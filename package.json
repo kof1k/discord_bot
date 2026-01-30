@@ -16,7 +16,8 @@
     "pm2:monit": "pm2 monit",
     "deploy": "bash deploy.sh",
     "health": "bash scripts/health-check.sh",
-    "backup": "bash scripts/backup.sh"
+    "backup": "bash scripts/backup.sh",
+    "disk": "node scripts/monitor-disk.js"
   },
   "dependencies": {
     "@discordjs/voice": "^0.19.0",
