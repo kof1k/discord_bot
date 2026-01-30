@@ -8,7 +8,15 @@
     "telegram": "node telegram-bot.js",
     "init-db": "node scripts/init-database.js",
     "cleanup": "node scripts/cleanup-tracks.js",
-    "dev": "node index.js & node telegram-bot.js"
+    "dev": "node index.js & node telegram-bot.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop all",
+    "pm2:restart": "pm2 restart all",
+    "pm2:logs": "pm2 logs",
+    "pm2:monit": "pm2 monit",
+    "deploy": "bash deploy.sh",
+    "health": "bash scripts/health-check.sh",
+    "backup": "bash scripts/backup.sh"
   },
   "dependencies": {
     "@discordjs/voice": "^0.19.0",
