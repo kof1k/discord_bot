@@ -1,0 +1,25 @@
+[Unit]
+Description=Telegram Music Bot Control Panel
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=YOUR_USER
+WorkingDirectory=/home/YOUR_USER/discord_bot
+Environment="NODE_ENV=production"
+EnvironmentFile=/home/YOUR_USER/discord_bot/.env
+ExecStart=/usr/bin/node /home/YOUR_USER/discord_bot/telegram-bot.js
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/music_bot/logs/telegram-bot.log
+StandardError=append:/var/music_bot/logs/telegram-bot-error.log
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/music_bot
+
+[Install]
+WantedBy=multi-user.target

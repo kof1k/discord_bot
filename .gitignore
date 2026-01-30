@@ -9,10 +9,18 @@ downloads/
 
 # Downloaded audio files
 downloads/
+music/
 
 # Logs
 *.log
 npm-debug.log*
+logs/
+.pm2/
+
+# Database backups
+*.sql
+*.sql.gz
+backups/
 
 # OS files
 .DS_Store
@@ -25,3 +33,13 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Old/backup files
+*.old
+*.old.*
+*.backup
+*.bak
+
+# PM2
+.pm2
+ecosystem.config.js.backup
