@@ -58,12 +58,17 @@ fi
 
 # Встановлення Python 3 та pip
 info "Встановлення Python 3..."
-if ! command -v python3 &> /dev/null; then
-    apt install -y python3 python3-pip
-    success "Python встановлено: $(python3 --version)"
-else
-    success "Python вже встановлено: $(python3 --version)"
+apt install -y python3 python3-pip python3-venv
+success "Python встановлено: $(python3 --version)"
+
+# Перевірка pip3
+if ! command -v pip3 &> /dev/null; then
+    info "pip3 не знайдено, встановлюю альтернативним методом..."
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python3 get-pip.py
+    rm get-pip.py
 fi
+success "pip3 встановлено: $(pip3 --version)"
 
 # Встановлення FFmpeg
 info "Встановлення FFmpeg..."
@@ -123,8 +128,12 @@ fi
 
 # Встановлення yt-dlp
 info "Встановлення yt-dlp..."
-pip3 install yt-dlp
-success "yt-dlp встановлено"
+if command -v pip3 &> /dev/null; then
+    pip3 install --upgrade yt-dlp || python3 -m pip install --upgrade yt-dlp
+    success "yt-dlp встановлено: $(yt-dlp --version)"
+else
+    error "pip3 не знайдено після встановлення. Встановіть yt-dlp вручну: pip3 install yt-dlp"
+fi
 
 # Налаштування firewall
 info "Налаштування firewall..."
