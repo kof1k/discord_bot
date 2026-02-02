@@ -128,11 +128,29 @@ fi
 
 # Встановлення yt-dlp
 info "Встановлення yt-dlp..."
-if command -v pip3 &> /dev/null; then
-    pip3 install --upgrade yt-dlp || python3 -m pip install --upgrade yt-dlp
-    success "yt-dlp встановлено: $(yt-dlp --version)"
+
+# Спроба 1: Через apt (якщо доступно)
+if apt-cache show yt-dlp &> /dev/null; then
+    apt install -y yt-dlp
+    success "yt-dlp встановлено через apt: $(yt-dlp --version)"
+# Спроба 2: Через pipx (для Ubuntu 23.04+)
+elif ! command -v yt-dlp &> /dev/null; then
+    info "Встановлення через pipx (рекомендовано для Ubuntu 23.04+)..."
+    apt install -y pipx
+    pipx ensurepath
+    export PATH="$PATH:/root/.local/bin:$HOME/.local/bin"
+    pipx install yt-dlp
+    # Створити симлінк для глобального доступу
+    ln -sf ~/.local/bin/yt-dlp /usr/local/bin/yt-dlp 2>/dev/null || true
+
+    if command -v yt-dlp &> /dev/null; then
+        success "yt-dlp встановлено через pipx: $(yt-dlp --version)"
+    else
+        info "⚠️  yt-dlp встановлено, але потребує перезапуску shell"
+        info "Після завершення скрипта виконайте: source ~/.bashrc"
+    fi
 else
-    error "pip3 не знайдено після встановлення. Встановіть yt-dlp вручну: pip3 install yt-dlp"
+    success "yt-dlp вже встановлено: $(yt-dlp --version)"
 fi
 
 # Налаштування firewall
